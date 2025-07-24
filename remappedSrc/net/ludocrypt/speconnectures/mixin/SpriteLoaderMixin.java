@@ -31,7 +31,7 @@ public class SpriteLoaderMixin {
 	@Final
 	private static Logger LOGGER;
 
-	@Inject(method = "loadSprite", at = @At(value = "RETURN", ordinal = 2))
+	@Inject(method = "Lnet/minecraft/client/texture/SpriteLoader;loadSprite(Lnet/minecraft/util/Identifier;Lnet/minecraft/resource/Resource;)Lnet/minecraft/client/texture/SpriteContents;", at = @At(value = "RETURN", ordinal = 2))
 	private static void loadSprite(ResourceLocation id, Resource resource, CallbackInfoReturnable<SpriteContents> ci) {
 
 		try {

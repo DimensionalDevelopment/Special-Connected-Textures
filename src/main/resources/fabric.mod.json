@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "speconnectures",
+	"version": "${version}",
+	"name": "Special Connected Textures",
+	"description": "A special implementation of Connected Textures!",
+	"authors": [
+		"LudoCrypt"
+	],
+	"contact": {
+		"homepage": "https://github.com/LudoCrypt/Special-Connected-Textures",
+		"issues": "https://github.com/LudoCrypt/Special-Connected-Textures/issues",
+		"sources": "https://github.com/LudoCrypt/Special-Connected-Textures"
+	},
+	"icon": "assets/speconnectures/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.ludocrypt.speconnectures.SpecialTextures"
+		]
+	},
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": "*",
+		"specialmodels": "*"
+	},
+	"mixins": [
+		"speconnectures.mixins.json"
+	],
+	"custom": {
+		"modmenu": {
+			"badges": [
+				"library"
+			]
+		}
+	}
+}

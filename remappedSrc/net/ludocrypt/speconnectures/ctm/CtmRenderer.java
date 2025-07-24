@@ -1,11 +1,7 @@
 package net.ludocrypt.speconnectures.ctm;
 
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.ludocrypt.specialmodels.api.SpecialModelRenderer;
-import net.minecraft.client.Camera;
 import org.joml.Matrix4f;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 
@@ -30,7 +26,7 @@ public abstract class CtmRenderer extends TexturedSpecialModelRenderer {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
+	@ClientOnly
 	public void setup(PoseStack matrices, Matrix4f viewMatrix, Matrix4f positionMatrix, float tickDelta,
 			ShaderInstance shader, BlockPos origin) {
 		super.setup(matrices, viewMatrix, positionMatrix, tickDelta, shader, origin);
@@ -43,7 +39,7 @@ public abstract class CtmRenderer extends TexturedSpecialModelRenderer {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
+	@ClientOnly
 	public MutableQuad modifyQuad(RenderChunkRegion chunkRenderRegion, BlockPos pos, BlockState state, BakedModel model,
 			BakedQuad quadIn, long modelSeed, MutableQuad quad) {
 
@@ -168,13 +164,14 @@ public abstract class CtmRenderer extends TexturedSpecialModelRenderer {
 	}
 
 	@Override
-	public ShaderInstance getShaderProgram(PoseStack matrices, float tickDelta, Camera camera, Matrix4f positionMatrix, SpecialModelRenderer modelRenderer, VertexBuffer vertexBuffer, BlockPos origin) {
+	@ClientOnly
+	public ShaderInstance getShaderProgram(PoseStack matrices, float tickDelta) {
 		return GameRenderer.getRendertypeSolidShader();
 	}
 
 	public abstract Pair<Integer, Integer> getTile(boolean up, boolean down, boolean left, boolean right, boolean upleft,
-												   boolean upright, boolean downleft, boolean downright, RenderChunkRegion chunkRenderRegion, BlockPos pos,
-												   BlockState state, BakedModel model, BakedQuad quadIn, long modelSeed, MutableQuad quad);
+			boolean upright, boolean downleft, boolean downright, RenderChunkRegion chunkRenderRegion, BlockPos pos,
+			BlockState state, BakedModel model, BakedQuad quadIn, long modelSeed, MutableQuad quad);
 
 	public abstract Pair<Integer, Integer> getAtlasSize(RenderChunkRegion chunkRenderRegion, BlockPos pos, BlockState state,
 			BakedModel model, BakedQuad quadIn, long modelSeed, MutableQuad quad);

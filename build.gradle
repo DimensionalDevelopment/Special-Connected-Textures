@@ -1,32 +1,24 @@
 plugins {
 	id 'maven-publish'
-	alias(libs.plugins.quilt.loom)
+	alias libs.plugins.fabric.loom
 }
 
-archivesBaseName = project.archives_base_name
-version = project.version
+base.archivesName = project.archives_base_name
+version = "$project.version+${libs.versions.minecraft.get()}"
 group = project.maven_group
 
 repositories {
-	maven {
-		url = 'https://jitpack.io'
-    }
-	maven {
-		url = 'https://maven.terraformersmc.com/'
-	}
+	mavenLocal()
 }
 
 dependencies {
 	minecraft libs.minecraft
-	mappings "org.quiltmc:quilt-mappings:${libs.versions.quilt.mappings.get()}:intermediary-v2"
-
-	modImplementation libs.quilt.loader
-
-	modImplementation libs.quilted.fabric.api
-
-	modImplementation libs.terraformersmc.modmenu
+	mappings loom.officialMojangMappings()
+	modImplementation libs.fabric.loader
+	modImplementation libs.fabric.api
 
 	includeMod libs.ludocrypt.specialmodels
+
 }
 
 def includeMod(var dep) {
@@ -35,38 +27,39 @@ def includeMod(var dep) {
 }
 
 processResources {
-	inputs.property "version", version
+	inputs.property "version", project.version
 
-	filesMatching('quilt.mod.json') {
-		expand "version": version
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = "UTF-8"
 	it.options.release = 17
 }
-
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
-
 	withSourcesJar()
 }
 
 jar {
+	inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE") {
-		rename { "${it}_${archivesBaseName}" }
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
 			from components.java
 		}
 	}
 
 	repositories {
+
 	}
 }
